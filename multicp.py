@@ -78,6 +78,8 @@ def copy_file(src, dst=[], progress=None, only_new_file=True, buffer_size=128*10
                 dest_modified = time.ctime(os.path.getmtime(dest))
                 if src_modified > dest_modified:
                     out_files.append(dest)
+                elif (src_modified == dest_modified) and (os.path.getsize(src) != os.path.getsize(dest)):
+                    out_files.append(dest)
             else:
                 out_files.append(dest)
         out_files = dict.fromkeys(out_files)
@@ -167,7 +169,7 @@ def get_human_readable(size, precision=2):
     """
         Get human readable file size
     """
-    suffixes=['B','Kb','MB','GB','TB']
+    suffixes=['B','KiB','MiB','GiB','TiB']
     suffixIndex = 0
     while size >= 1024:
         suffixIndex += 1
